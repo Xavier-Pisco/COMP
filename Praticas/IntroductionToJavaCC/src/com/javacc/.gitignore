@@ -1,2 +1,5 @@
 *.java
 *.class
+!MyConstants.java
+!SimpleNode.java
+
