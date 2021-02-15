@@ -69,8 +69,16 @@ public class SimpleNode implements Node {
   public void dump(String prefix) {
     System.out.println(toString(prefix));
 
-    if(this.Op != 0)
-      System.out.println("\t[ "+MyConstants.ops[this.Op-1]+" ]");
+    switch(this.id) {
+      case CalculatorTreeConstants.JJTADD:
+        System.out.println("\t[ + ]");break;
+      case CalculatorTreeConstants.JJTSUB:
+        System.out.println("\t[ - ]");break;
+      case CalculatorTreeConstants.JJTMUL:
+        System.out.println("\t[ * ]");break;
+      case CalculatorTreeConstants.JJTDIV:
+        System.out.println("\t[ / ]");break;
+    }
     if(children == null)
       System.out.println("\t[ "+this.val+" ]");
 
