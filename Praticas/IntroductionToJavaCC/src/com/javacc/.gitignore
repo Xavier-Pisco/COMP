@@ -1,14 +1,2 @@
-Example.class
-ExampleConstants.class
-ExampleConstants.java
-Example.java
-ExampleTokenManager.class
-ExampleTokenManager.java
-ParseException.class
-ParseException.java
-SimpleCharStream.class
-SimpleCharStream.java
-Token.class
-Token.java
-TokenMgrError.class
-TokenMgrError.java
+*.java
+*.class
