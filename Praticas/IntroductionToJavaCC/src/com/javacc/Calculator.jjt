@@ -57,15 +57,15 @@ SimpleNode Expression(): {Token t1, t2;}
     (t1=<SYMBOL> "=" t2=<INTEGER>
     {
         SymbolMap.set(t1.image, Integer.parseInt(t2.image));
-    } ";" (<LF>)?)*
-    Expr1() ";" <LF> {return jjtThis;} // Java code inside brackets
+    } (";")? (<LF>)?)*
+    Expr1(1) (";")? <LF> {return jjtThis;} // Java code inside brackets
 }
-void Expr1() #void: {}
+void Expr1(int sign) #void: {}
 {
-    Expr2(1)
+    Expr2(sign)
     [
-    ("+" Expr2(1) #Add(2)
-    | "-" Expr2(1) #Sub(2))
+    ("+" Expr2(sign) #Add(2)
+    | "-" Expr2(sign) #Sub(2))
     ]
 }
 void Expr2(int sign) #void: {}
@@ -74,7 +74,8 @@ void Expr2(int sign) #void: {}
     [
     ("*" Expr3(1) #Mul(2)
     | "/" Expr3(1) #Div(2)
-    )]
+    )
+    ]
 }
 
 void Expr3(int sign) #void: {Token t;}
@@ -84,7 +85,7 @@ void Expr3(int sign) #void: {Token t;}
     jjtThis.val = sign *Integer.parseInt(t.image);
     } #Term
     | "-" Expr3(-1)
-    | "(" Expr1() ")"
+    | "(" Expr1(sign) ")"
     | t=<SYMBOL>
     {
     jjtThis.val = sign * SymbolMap.get(t.image);

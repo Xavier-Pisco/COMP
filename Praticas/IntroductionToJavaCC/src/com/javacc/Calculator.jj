@@ -67,12 +67,12 @@ SimpleNode Expression(): {/*@bgen(jjtree) Expression */
     (t1=<SYMBOL> "=" t2=<INTEGER>
     {
         SymbolMap.set(t1.image, Integer.parseInt(t2.image));
-    } ";" (<LF>)?)*
-    Expr1() ";" <LF>/*@bgen(jjtree)*/
-                     {
-                       jjtree.closeNodeScope(jjtn000, true);
-                       jjtc000 = false;
-                     }
+    } (";")? (<LF>)?)*
+    Expr1(1) (";")? <LF>/*@bgen(jjtree)*/
+                         {
+                           jjtree.closeNodeScope(jjtn000, true);
+                           jjtc000 = false;
+                         }
 /*@egen*/ {return jjtn000;}/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
@@ -95,9 +95,9 @@ SimpleNode Expression(): {/*@bgen(jjtree) Expression */
     }
 /*@egen*/ // Java code inside brackets
 }
-void Expr1()      : {}
+void Expr1(int sign)      : {}
 {
-    Expr2(1)
+    Expr2(sign)
     [
     ("+"/*@bgen(jjtree) #Add( 2) */
          {
@@ -106,7 +106,7 @@ void Expr1()      : {}
            jjtree.openNodeScope(jjtn001);
          }
          try {
-/*@egen*/ Expr2(1)/*@bgen(jjtree)*/
+/*@egen*/ Expr2(sign)/*@bgen(jjtree)*/
          } catch (Throwable jjte001) {
            if (jjtc001) {
              jjtree.clearNodeScope(jjtn001);
@@ -134,7 +134,7 @@ void Expr1()      : {}
             jjtree.openNodeScope(jjtn002);
           }
           try {
-/*@egen*/ Expr2(1)/*@bgen(jjtree)*/
+/*@egen*/ Expr2(sign)/*@bgen(jjtree)*/
           } catch (Throwable jjte002) {
             if (jjtc002) {
               jjtree.clearNodeScope(jjtn002);
@@ -245,7 +245,7 @@ void Expr3(int sign)      : {Token t;}
     }
 /*@egen*/      
     | "-" Expr3(-1)
-    | "(" Expr1() ")"
+    | "(" Expr1(sign) ")"
     | t=<SYMBOL>/*@bgen(jjtree) Term */
     {
       SimpleNode jjtn002 = new SimpleNode(JJTTERM);
